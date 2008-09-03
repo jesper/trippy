@@ -1,0 +1,7 @@
+To use:
+qmake && make && ./trippy
+
+Requires:
+*Tweaking .pro file to reflect library/include directories for your installation of dependencies.
+*Marble
+*exiv2

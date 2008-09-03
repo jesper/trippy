@@ -9,10 +9,11 @@ INCLUDEPATH += .
 INCLUDEPATH += /home/jesper/kde/include/marble
 
 # Input
-HEADERS += window.h
+HEADERS += window.h photo.h
 FORMS += window.ui
-SOURCES += main.cpp window.cpp
+SOURCES += main.cpp window.cpp photo.cpp
 
 
 LIBS += -L/home/jesper/kde/lib -lmarblewidget
+LIBS += -lexiv2
 

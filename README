@@ -1,3 +1,5 @@
+Licenced under the GPLv2, Copyright Jesper Thomschutz, jesperht@yahoo.com
+
 To use:
 qmake && make && ./trippy
 

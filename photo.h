@@ -3,19 +3,18 @@
 
 #include <QPixmap>
 #include <QDateTime>
-#include <QtGui>
-#include <QString>
+#include <QDebug>
 
 class Photo : public QPixmap
 {
   public:
-    Photo(QString &path, QChar gpsLatRef, QString gpsLat, QChar gpsLongRef, QString gpsLong);
+    Photo(QString *path);
 
   private:
     QDateTime m_timestamp;
-    QChar m_gpsLatRef;
+    QString m_gpsLatRef;
     QString m_gpsLat;
-    QChar m_gpsLongRef;
+    QString m_gpsLongRef;
     QString m_gpsLong;
 };
 

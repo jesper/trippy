@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>534</width>
+    <width>653</width>
     <height>304</height>
    </rect>
   </property>
@@ -21,14 +21,25 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="label" >
-     <property name="text" >
-      <string/>
-     </property>
-     <property name="pixmap" >
-      <pixmap>picture.jpg</pixmap>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_2" >
+     <item>
+      <widget class="QLabel" name="l_photo" >
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="pixmap" >
+        <pixmap>picture.jpg</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pb_loadPhoto" >
+       <property name="text" >
+        <string>Load Photo</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

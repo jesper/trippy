@@ -7,11 +7,17 @@
 
 class Window : public QWidget
 {
+  Q_OBJECT
   public:
     Window(QWidget *parent);
 
   private:
     Ui::window ui;
+    QFileDialog *m_fileDialog;
+
+  private slots:
+    void selectFile();
+    void filesSelected(const QStringList &files);
 };
 
 #endif

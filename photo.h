@@ -8,9 +8,12 @@
 class Photo : public QPixmap
 {
   public:
-    Photo(QString *path);
+    Photo(const QString &path);
+    bool isGeoTagged();
+    QPixmap getThumbnail();
 
   private:
+    QPixmap m_thumbnail;
     QDateTime m_timestamp;
     QString m_gpsLatRef;
     QString m_gpsLat;

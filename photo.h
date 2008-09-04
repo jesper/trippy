@@ -11,8 +11,12 @@ class Photo : public QPixmap
     Photo(const QString &path);
     bool isGeoTagged();
     QPixmap getThumbnail();
+    QString getGpsLat();
+    QString getGpsLong();
 
   private:
+    qreal convertToCoordinate(QString coord, QString ref);
+
     QPixmap m_thumbnail;
     QDateTime m_timestamp;
     QString m_gpsLatRef;

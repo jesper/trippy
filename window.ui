@@ -14,11 +14,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout" >
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" >
-     <item>
-      <widget class="QCalendarWidget" name="calendarWidget" />
-     </item>
-    </layout>
+    <layout class="QVBoxLayout" name="verticalLayout" />
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2" >

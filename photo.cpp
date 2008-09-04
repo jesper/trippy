@@ -8,9 +8,8 @@ Photo::Photo(const QString &path)
 {
   Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path.toStdString());
   image->readMetadata();
-
   Exiv2::ExifData &exifData = image->exifData();
-  
+ 
   if (exifData.empty()) {
     qDebug() << "Whoops! Couldnt find any metadata in" << path;  
     return;
@@ -27,7 +26,16 @@ Photo::Photo(const QString &path)
                 "yyyy:MM:dd HH:mm:ss");
 
   m_thumbnail = this->scaled(QSize(128, 128), Qt::KeepAspectRatio);
+}
 
+QString Photo::getGpsLong()
+{
+  return m_gpsLong;
+}
+
+QString Photo::getGpsLat()
+{
+  return m_gpsLat;
 }
 
 QPixmap Photo::getThumbnail()
@@ -43,3 +51,14 @@ bool Photo::isGeoTagged()
           || !m_gpsLongRef.isEmpty()
           );
 }
+
+qreal Photo::convertToCoordinate(QString coord, QString ref)
+{
+ /*
+ *Format comes in as "59/1 56/1 1288/100" and "E"
+ *  Value = first + second/60 + third/3600
+ *  Value *= -1 if ref is W || S
+ */
+  return 0;
+}
+

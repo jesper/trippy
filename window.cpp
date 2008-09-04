@@ -1,24 +1,21 @@
 #include "window.h"
 #include "photo.h"
 
-#include <MarbleWidget.h>
 
 #include <QFileDialog>
-
-using namespace Marble;
 
 Window::Window(QWidget *parent)
   :QWidget(parent)
 {
   ui.setupUi(this);
 
-  MarbleWidget *marble = new MarbleWidget(this);
-  marble->setMapThemeId(QLatin1String("earth/srtm/srtm.dgml"));
-  marble->setShowCompass(false);
-  marble->setShowScaleBar(false);
-  marble->setShowOverviewMap(false);
-  marble->setProjection(Mercator);
-  ui.verticalLayout->addWidget(marble);
+  m_marble = new MarbleWidget(this);
+  m_marble->setMapThemeId(QLatin1String("earth/srtm/srtm.dgml"));
+  m_marble->setShowCompass(false);
+  m_marble->setShowScaleBar(false);
+  m_marble->setShowOverviewMap(false);
+  m_marble->setProjection(Mercator);
+  ui.verticalLayout->addWidget(m_marble);
 
   QObject::connect(ui.pb_loadPhoto, SIGNAL(clicked()), this, SLOT(selectFile()));
   
@@ -45,5 +42,6 @@ void Window::filesSelected(const QStringList &selected)
   else
   {
     ui.l_photo->setPixmap(photo.getThumbnail());
+//    m_marble->centerOn(photo.getGpsLong(), photo.getGpsLat(), true);
   }
 }

@@ -3,7 +3,11 @@
 
 #include <QtGui>
 
+#include <MarbleWidget.h>
+
 #include "ui_window.h"
+
+using namespace Marble;
 
 class Window : public QWidget
 {
@@ -14,6 +18,7 @@ class Window : public QWidget
   private:
     Ui::window ui;
     QFileDialog *m_fileDialog;
+    MarbleWidget *m_marble;
 
   private slots:
     void selectFile();

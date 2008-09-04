@@ -28,14 +28,16 @@ Photo::Photo(const QString &path)
   m_thumbnail = this->scaled(QSize(128, 128), Qt::KeepAspectRatio);
 }
 
-QString Photo::getGpsLong()
+qreal Photo::getGpsLong()
 {
-  return m_gpsLong;
+  //### Shouldn't do this convertion each time. Should just be done directly once reading metadata.
+  //    Only doing this because I want to see the location of the photo _tonight_! :)
+  return convertToCoordinate(m_gpsLong, m_gpsLongRef);
 }
 
-QString Photo::getGpsLat()
+qreal Photo::getGpsLat()
 {
-  return m_gpsLat;
+  return convertToCoordinate(m_gpsLat, m_gpsLatRef);
 }
 
 QPixmap Photo::getThumbnail()
@@ -54,11 +56,38 @@ bool Photo::isGeoTagged()
 
 qreal Photo::convertToCoordinate(QString coord, QString ref)
 {
- /*
- *Format comes in as "59/1 56/1 1288/100" and "E"
- *  Value = first + second/60 + third/3600
- *  Value *= -1 if ref is W || S
- */
-  return 0;
+  /*
+  *Format comes in as "59/1 56/1 1288/100" and "E"
+  *  Value = first + second/60 + third/3600
+  *  Value *= -1 if ref is W || S
+  */
+ 
+  qreal total = 0;
+  QStringList points = coord.split(" ");
+
+  qreal temp = 0;
+
+  for (int i=0; i < points.size(); ++i)
+  {
+    QStringList value = points[i].split("/");
+    temp = value[0].toFloat() / value[1].toFloat();
+    switch (i) 
+    {
+      case 0:
+        total += temp;
+        break;
+      case 1:
+        total += temp/60;
+        break;
+      case 2:
+        total += temp/3600;
+        break;
+    }
+  }
+
+  if (ref == "W" || ref == "S")
+    total *= -1;
+
+  return total;
 }
 

@@ -42,6 +42,6 @@ void Window::filesSelected(const QStringList &selected)
   else
   {
     ui.l_photo->setPixmap(photo.getThumbnail());
-//    m_marble->centerOn(photo.getGpsLong(), photo.getGpsLat(), true);
+    m_marble->centerOn(photo.getGpsLong(), photo.getGpsLat(), true);
   }
 }

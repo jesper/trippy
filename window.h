@@ -6,6 +6,7 @@
 #include <MarbleWidget.h>
 
 #include "ui_window.h"
+#include "trippymarblewidget.h"
 
 using namespace Marble;
 
@@ -18,11 +19,13 @@ class Window : public QWidget
   private:
     Ui::window ui;
     QFileDialog *m_fileDialog;
-    MarbleWidget *m_marble;
+    TrippyMarbleWidget *m_marble;
 
   private slots:
     void selectFile();
     void filesSelected(const QStringList &files);
+    void centerMapOn(QListWidgetItem *item);
+
 };
 
 #endif

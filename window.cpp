@@ -9,7 +9,7 @@ Window::Window(QWidget *parent)
 {
   ui.setupUi(this);
 
-  m_marble = new MarbleWidget(this);
+  m_marble = new TrippyMarbleWidget(this);
   m_marble->setMapThemeId(QLatin1String("earth/srtm/srtm.dgml"));
   m_marble->setShowCompass(false);
   m_marble->setShowScaleBar(false);
@@ -21,7 +21,10 @@ Window::Window(QWidget *parent)
   
   m_fileDialog = new QFileDialog(this, "Select geo-tagged images");
   m_fileDialog->setNameFilter("Image Files (*.jpg)");
+  
   QObject::connect(m_fileDialog, SIGNAL(filesSelected(const QStringList &)), this, SLOT(filesSelected(const QStringList &)));
+
+  QObject::connect(ui.lw_photos, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(centerMapOn(QListWidgetItem *)));
 }
 
 void Window::selectFile()
@@ -42,6 +45,20 @@ void Window::filesSelected(const QStringList &selected)
   else
   {
     ui.l_photo->setPixmap(photo.getThumbnail());
-    m_marble->centerOn(photo.getGpsLong(), photo.getGpsLat(), true);
+    QListWidgetItem *newItem = new QListWidgetItem(QIcon(photo.getThumbnail()), photo.getTimestamp().toString());
+    newItem->setData(16, QVariant::fromValue(photo));
+    ui.lw_photos->addItem(newItem);
+    m_marble->centerOn(photo.getGpsLong(), photo.getGpsLat());
+    m_marble->zoomView(2000);
   }
+}
+
+//### Change to Photo from listwidgetitem
+void Window::centerMapOn(QListWidgetItem *item)
+{
+  QVariant v = item->data(16);
+  Photo photo = v.value<Photo>();
+  ui.l_photo->setPixmap(photo.getThumbnail()); 
+  m_marble->centerOn(photo.getGpsLong(), photo.getGpsLat());
+  m_marble->zoomView(2000);
 }

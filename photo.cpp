@@ -2,7 +2,7 @@
 
 #include <exiv2/image.hpp>
 #include <exiv2/exif.hpp>
- 
+
 Photo::Photo(const QString &path)
   : QPixmap(path)
 {
@@ -25,7 +25,7 @@ Photo::Photo(const QString &path)
                 QString::fromStdString(exifData["Exif.Photo.DateTimeOriginal"].value().toString()),
                 "yyyy:MM:dd HH:mm:ss");
 
-  m_thumbnail = this->scaled(QSize(128, 128), Qt::KeepAspectRatio);
+  m_thumbnail = this->scaled(QSize(280, 280), Qt::KeepAspectRatio);
 }
 
 qreal Photo::getGpsLong()
@@ -43,6 +43,11 @@ qreal Photo::getGpsLat()
 QPixmap Photo::getThumbnail()
 {
   return m_thumbnail;
+}
+
+QDateTime Photo::getTimestamp()
+{
+  return m_timestamp;
 }
 
 bool Photo::isGeoTagged()

@@ -1,8 +1,4 @@
 #include "window.h"
-#include "photo.h"
-
-
-#include <QFileDialog>
 
 Window::Window(QWidget *parent)
   :QWidget(parent)
@@ -24,7 +20,7 @@ Window::Window(QWidget *parent)
   
   QObject::connect(m_fileDialog, SIGNAL(filesSelected(const QStringList &)), this, SLOT(filesSelected(const QStringList &)));
 
-  QObject::connect(ui.lw_photos, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(centerMapOn(QListWidgetItem *)));
+  QObject::connect(ui.lw_photos, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(photoClicked(QListWidgetItem *)));
 }
 
 void Window::selectFile()
@@ -44,21 +40,23 @@ void Window::filesSelected(const QStringList &selected)
   }
   else
   {
-    ui.l_photo->setPixmap(photo.getThumbnail());
     QListWidgetItem *newItem = new QListWidgetItem(QIcon(photo.getThumbnail()), photo.getTimestamp().toString());
     newItem->setData(16, QVariant::fromValue(photo));
     ui.lw_photos->addItem(newItem);
-    m_marble->centerOn(photo.getGpsLong(), photo.getGpsLat());
-    m_marble->zoomView(2000);
+    centerMapOn(&photo);
   }
 }
 
-//### Change to Photo from listwidgetitem
-void Window::centerMapOn(QListWidgetItem *item)
+void Window::photoClicked(QListWidgetItem *item)
 {
   QVariant v = item->data(16);
   Photo photo = v.value<Photo>();
-  ui.l_photo->setPixmap(photo.getThumbnail()); 
-  m_marble->centerOn(photo.getGpsLong(), photo.getGpsLat());
+  centerMapOn(&photo);
+}
+
+void Window::centerMapOn(Photo *photo)
+{
+  ui.l_photo->setPixmap(photo->getThumbnail()); 
+  m_marble->centerOn(photo->getGpsLong(), photo->getGpsLat());
   m_marble->zoomView(2000);
 }

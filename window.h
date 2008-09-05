@@ -7,6 +7,7 @@
 
 #include "ui_window.h"
 #include "trippymarblewidget.h"
+#include "photo.h"
 
 using namespace Marble;
 
@@ -20,11 +21,13 @@ class Window : public QWidget
     Ui::window ui;
     QFileDialog *m_fileDialog;
     TrippyMarbleWidget *m_marble;
-
+    
+    void centerMapOn(Photo *photo);
+ 
   private slots:
     void selectFile();
     void filesSelected(const QStringList &files);
-    void centerMapOn(QListWidgetItem *item);
+    void photoClicked(QListWidgetItem *item);
 
 };
 

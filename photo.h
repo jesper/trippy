@@ -23,10 +23,8 @@ class Photo : public QPixmap
 
     QPixmap m_thumbnail;
     QDateTime m_timestamp;
-    QString m_gpsLatRef;
-    QString m_gpsLat;
-    QString m_gpsLongRef;
-    QString m_gpsLong;
+    qreal m_gpsLat;
+    qreal m_gpsLong;
 };
 
 Q_DECLARE_METATYPE(Photo)

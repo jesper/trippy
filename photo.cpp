@@ -4,7 +4,7 @@
 #include <exiv2/exif.hpp>
 
 Photo::Photo(const QString &path)
-  : QPixmap(path)
+  : QPixmap(path), m_gpsLat(-1), m_gpsLong(-1)
 {
   Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path.toStdString());
   image->readMetadata();
@@ -15,11 +15,18 @@ Photo::Photo(const QString &path)
     return;
   }
   
-  m_gpsLat = QString::fromStdString(exifData["Exif.GPSInfo.GPSLatitude"].value().toString());
-  m_gpsLong = QString::fromStdString(exifData["Exif.GPSInfo.GPSLongitude"].value().toString());
+  QString gpsLatRef = QString::fromStdString(exifData["Exif.GPSInfo.GPSLatitudeRef"].value().toString());
+  QString gpsLongRef = QString::fromStdString(exifData["Exif.GPSInfo.GPSLongitudeRef"].value().toString());
 
-  m_gpsLatRef = QString::fromStdString(exifData["Exif.GPSInfo.GPSLatitudeRef"].value().toString());
-  m_gpsLongRef = QString::fromStdString(exifData["Exif.GPSInfo.GPSLongitudeRef"].value().toString());
+  m_gpsLat = convertToCoordinate(
+              QString::fromStdString(exifData["Exif.GPSInfo.GPSLatitude"].value().toString())
+              , gpsLatRef
+  );
+
+  m_gpsLong = convertToCoordinate(
+              QString::fromStdString(exifData["Exif.GPSInfo.GPSLongitude"].value().toString())
+              , gpsLongRef
+  );
 
   m_timestamp = QDateTime::fromString(
                 QString::fromStdString(exifData["Exif.Photo.DateTimeOriginal"].value().toString()),
@@ -30,14 +37,12 @@ Photo::Photo(const QString &path)
 
 qreal Photo::getGpsLong()
 {
-  //### Shouldn't do this convertion each time. Should just be done directly once reading metadata.
-  //    Only doing this because I want to see the location of the photo _tonight_! :)
-  return convertToCoordinate(m_gpsLong, m_gpsLongRef);
+  return m_gpsLong;
 }
 
 qreal Photo::getGpsLat()
 {
-  return convertToCoordinate(m_gpsLat, m_gpsLatRef);
+  return m_gpsLat;
 }
 
 QPixmap Photo::getThumbnail()
@@ -52,11 +57,7 @@ QDateTime Photo::getTimestamp()
 
 bool Photo::isGeoTagged()
 {
-  return (!m_gpsLat.isEmpty()
-          || !m_gpsLatRef.isEmpty()
-          || !m_gpsLong.isEmpty()
-          || !m_gpsLongRef.isEmpty()
-          );
+  return ((m_gpsLat != -1) && (m_gpsLong != -1));
 }
 
 qreal Photo::convertToCoordinate(QString coord, QString ref)

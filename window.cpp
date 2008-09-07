@@ -20,7 +20,7 @@ Window::Window(QWidget *parent)
   
   QObject::connect(m_fileDialog, SIGNAL(filesSelected(const QStringList &)), this, SLOT(filesSelected(const QStringList &)));
 
-  QObject::connect(ui.lw_photos, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(photoClicked(QListWidgetItem *)));
+  QObject::connect(ui.lw_photos, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(photoClicked(QListWidgetItem *)));
 }
 
 void Window::selectFile()
@@ -30,7 +30,6 @@ void Window::selectFile()
 
 void Window::filesSelected(const QStringList &selected)
 {
-  qDebug() << "Selected:" << selected;
   Photo photo(selected[0]);
   if (!photo.isGeoTagged())
   {

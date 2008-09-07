@@ -11,7 +11,7 @@ class TrippyMarbleWidget : public MarbleWidget
     TrippyMarbleWidget(QWidget *parent=0);
 
   protected:
-    void paintEvent(QPaintEvent *event);
+    void customPaint(GeoPainter *painter);
 };
 
 #endif

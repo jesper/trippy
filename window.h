@@ -8,6 +8,7 @@
 #include "ui_window.h"
 #include "trippymarblewidget.h"
 #include "photo.h"
+#include "loadscreen.h"
 
 using namespace Marble;
 
@@ -18,7 +19,8 @@ class Window : public QWidget
     Window(QWidget *parent);
 
   private:
-    Ui::window ui;
+    Ui::window m_window;
+    LoadScreen m_loadScreen;
     QFileDialog *m_fileDialog;
     TrippyMarbleWidget *m_marble;
     

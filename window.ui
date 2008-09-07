@@ -9,8 +9,14 @@
     <height>730</height>
    </rect>
   </property>
+  <property name="sizeIncrement" >
+   <size>
+    <width>1</width>
+    <height>0</height>
+   </size>
+  </property>
   <property name="windowTitle" >
-   <string>Form</string>
+   <string>Trippy</string>
   </property>
   <layout class="QFormLayout" name="formLayout_2" >
    <property name="sizeConstraint" >

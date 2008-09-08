@@ -9,9 +9,9 @@ INCLUDEPATH += .
 INCLUDEPATH += /home/jesper/kde/include/marble
 
 # Input
-HEADERS += window.h photo.h trippymarblewidget.h
-FORMS += window.ui
-SOURCES += main.cpp window.cpp photo.cpp trippymarblewidget.cpp
+HEADERS += window.h photo.h trippymarblewidget.h loadscreen.h
+FORMS += window.ui loadscreen.ui
+SOURCES += main.cpp window.cpp photo.cpp trippymarblewidget.cpp loadscreen.cpp
 
 
 LIBS += -L/home/jesper/kde/lib -lmarblewidget

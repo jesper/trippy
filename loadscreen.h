@@ -5,13 +5,11 @@
 
 #include "ui_loadscreen.h"
 
-class LoadScreen : public QWidget
+class LoadScreen : public QDialog
 {
   Q_OBJECT
   public:
     LoadScreen(QWidget *parent=0);
-
-  private:
     Ui::loadScreen ui;
 };
 

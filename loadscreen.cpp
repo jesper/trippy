@@ -1,7 +1,7 @@
 #include "loadscreen.h"
 
 LoadScreen::LoadScreen(QWidget *parent)
-  :QWidget(parent)
+  :QDialog(parent)
 {
   ui.setupUi(this);
 }

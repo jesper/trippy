@@ -9,6 +9,7 @@
 #include "trippymarblewidget.h"
 #include "photo.h"
 #include "loadscreen.h"
+#include <QStandardItemModel>
 
 using namespace Marble;
 
@@ -20,16 +21,17 @@ class Window : public QWidget
 
   private:
     Ui::window m_window;
-    LoadScreen m_loadScreen;
+    LoadScreen *m_loadScreen;
     QFileDialog *m_fileDialog;
     TrippyMarbleWidget *m_marble;
+    QStandardItemModel m_photos;
     
     void centerMapOn(Photo *photo);
  
   private slots:
     void selectFile();
     void filesSelected(const QStringList &files);
-    void photoClicked(QListWidgetItem *item);
+    void photoClicked(const QModelIndex &index);
 
 };
 

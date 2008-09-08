@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>820</width>
-    <height>730</height>
+    <width>851</width>
+    <height>650</height>
    </rect>
   </property>
   <property name="sizeIncrement" >
@@ -53,7 +53,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="lw_photos" >
+      <widget class="QListView" name="lw_photos" >
        <property name="minimumSize" >
         <size>
          <width>0</width>

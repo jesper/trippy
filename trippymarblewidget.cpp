@@ -8,6 +8,7 @@ TrippyMarbleWidget::TrippyMarbleWidget(QWidget *parent)
 
 void TrippyMarbleWidget::customPaint(GeoPainter *painter)
 {
+//  qDebug() << "Freaking drawing..." << this->parent()->getPhotos().size();
   QPen pen(Qt::blue);
   pen.setWidth(2);
   painter->setPen(pen);

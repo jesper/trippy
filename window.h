@@ -17,7 +17,8 @@ class Window : public QWidget
 {
   Q_OBJECT
   public:
-    Window(QWidget *parent);
+    Window(QWidget *parent=0);
+    QList<Photo *> getPhotos();
 
   private:
     Ui::window m_window;

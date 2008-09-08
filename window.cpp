@@ -81,3 +81,16 @@ void Window::centerMapOn(Photo *photo)
   m_marble->centerOn(photo->getGpsLong(), photo->getGpsLat());
   m_marble->zoomView(2000);
 }
+
+QList<Photo *> Window::getPhotos()
+{
+  QList<Photo *> photos;
+  for (int i=0; i<m_photos.rowCount(); ++i)
+  {
+    QVariant v = m_photos.item(i)->data(16);
+    Photo photo = v.value<Photo>();
+    photos.append(&photo);
+  }
+
+  return photos;
+}

@@ -27,6 +27,11 @@ Window::Window(QWidget *parent)
   QObject::connect(ui.lw_photos, SIGNAL(clicked(const QModelIndex &)), this, SLOT(photoClicked(const QModelIndex &)));
 }
 
+void Window::repaintMarbleWidget()
+{
+  m_marble->repaint();
+}
+
 void Window::selectFile()
 {
   m_fileDialog->show();

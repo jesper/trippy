@@ -18,7 +18,6 @@ void Trippy::filesSelected(const QStringList &selected)
   m_loadScreen->ui.progressBar->setMaximum(selected.size());
   m_loadScreen->ui.l_currentPhoto->setText("");
 
-
   for (int i=0; i<selected.size(); ++i)
   {
     m_loadScreen->ui.l_currentPhoto->setText(selected[i]);
@@ -33,7 +32,8 @@ void Trippy::filesSelected(const QStringList &selected)
       m_window->addPhoto(photo);
     }
     m_loadScreen->ui.progressBar->setValue(i + 1);
-    m_loadScreen->update();
   }
+
+  m_window->repaintMarbleWidget();
 }
 

@@ -21,6 +21,7 @@ class Window : public QDialog
     Ui::window ui;
     void centerMapOn(Photo *photo);
     void addPhoto(Photo photo);
+    void repaintMarbleWidget();
 
   private:
     QFileDialog *m_fileDialog;

@@ -13,27 +13,28 @@
 
 using namespace Marble;
 
-class Window : public QWidget
+class Window : public QDialog
 {
   Q_OBJECT
   public:
     Window(QWidget *parent=0);
-    QList<Photo *> getPhotos();
+    Ui::window ui;
+    void centerMapOn(Photo *photo);
+    void addPhoto(Photo photo);
 
   private:
-    Ui::window m_window;
-    LoadScreen *m_loadScreen;
     QFileDialog *m_fileDialog;
     TrippyMarbleWidget *m_marble;
     QStandardItemModel m_photos;
     
-    void centerMapOn(Photo *photo);
  
   private slots:
     void selectFile();
     void filesSelected(const QStringList &files);
     void photoClicked(const QModelIndex &index);
 
+  signals:  
+    void selectedFiles(const QStringList &files);
 };
 
 #endif

@@ -1,11 +1,9 @@
 #include <QtGui>
-#include "window.h"
+#include "trippy.h"
 
 int main(int argc, char* argv[])
 {
   QApplication app(argc, argv);
-  qDebug("I work!");
-  Window *win = new Window(0);
-  win->show();
+  Trippy trippy;
   return app.exec();
 }

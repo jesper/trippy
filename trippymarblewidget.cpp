@@ -1,14 +1,28 @@
 #include "trippymarblewidget.h"
-#include <GeoPainter.h>
+#include "photo.h"
 
 TrippyMarbleWidget::TrippyMarbleWidget(QWidget *parent)
-  : MarbleWidget(parent)
 {
+  m_photoModel = new QStandardItemModel();
+}
+
+void TrippyMarbleWidget::setPhotoModel(QStandardItemModel &model)
+{
+  delete m_photoModel;
+  m_photoModel = &model;
 }
 
 void TrippyMarbleWidget::customPaint(GeoPainter *painter)
 {
-//  qDebug() << "Freaking drawing..." << this->parent()->getPhotos().size();
+  QList<Photo *> photos;
+  for (int i=0; i<m_photoModel->rowCount(); ++i)
+  {
+    QVariant v = m_photoModel->item(i)->data(16);
+    Photo photo = v.value<Photo>();
+    photos.append(&photo);
+  }
+  qDebug() << "Photo size:" << photos.size();
+
   QPen pen(Qt::blue);
   pen.setWidth(2);
   painter->setPen(pen);

@@ -23,10 +23,13 @@ Trippy::Trippy()
 {
   m_window = new Window();
   m_window->show();
+  
+  m_window->ui.lw_photos->setModel(&m_photos);
+  m_window->m_marble->setPhotoModel(m_photos);
 
   QObject::connect(m_window, SIGNAL(selectedFiles(const QStringList &)), this, SLOT(filesSelected(const QStringList &)));
 
-  m_loadScreen = new LoadScreen();
+  m_loadScreen = new LoadScreen(m_window);
 }
 
 void Trippy::filesSelected(const QStringList &selected)
@@ -48,11 +51,25 @@ void Trippy::filesSelected(const QStringList &selected)
     }
     else
     {
-      m_window->addPhoto(photo);
+      addPhoto(photo);
     }
+    sortPhotos();
     m_loadScreen->ui.progressBar->setValue(i + 1);
   }
 
   m_window->repaintMarbleWidget();
 }
 
+void Trippy::addPhoto(Photo photo)
+{
+  QStandardItem *newItem = new QStandardItem(QIcon(photo.getThumbnail()), photo.getTimestamp().toString());
+  newItem->setEditable(false);
+  newItem->setData(QVariant::fromValue(photo), 16);
+  newItem->setData(photo.getTimestamp(), 17);
+  m_photos.appendRow(newItem);
+}
+
+void Trippy::sortPhotos()
+{
+  qDebug() << "Sort here please";  
+}

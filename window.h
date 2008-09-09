@@ -40,11 +40,12 @@ class Window : public QDialog
     Ui::window ui;
     void centerMapOn(Photo *photo);
     void addPhoto(Photo photo);
+    void sortPhotos();
     void repaintMarbleWidget();
+    TrippyMarbleWidget *m_marble;
 
   private:
     QFileDialog *m_fileDialog;
-    TrippyMarbleWidget *m_marble;
     QStandardItemModel m_photos;
     
  

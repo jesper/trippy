@@ -21,6 +21,7 @@
 #define TRIPPY_H
 
 #include <QtGui>
+#include <QStandardItem>
 
 #include "window.h"
 #include "photo.h"
@@ -36,9 +37,11 @@ class Trippy : public QObject
     LoadScreen *m_loadScreen;
     QFileDialog *m_fileDialog;
     QStandardItemModel m_photos;
-    
+
   private slots:
     void filesSelected(const QStringList &files);
+    void addPhoto(Photo photo);
+    void sortPhotos();
 };
 
 #endif

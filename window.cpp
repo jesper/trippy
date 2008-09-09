@@ -23,7 +23,6 @@ Window::Window(QWidget *parent)
     :QDialog(parent)
 {
   ui.setupUi(this);
-  ui.lw_photos->setModel(&m_photos);
   
   m_marble = new TrippyMarbleWidget(this);
   m_marble->setMapThemeId(QLatin1String("earth/srtm/srtm.dgml"));
@@ -32,7 +31,6 @@ Window::Window(QWidget *parent)
   m_marble->setShowOverviewMap(false);
   m_marble->setProjection(Mercator);
 
-  m_marble->setPhotoModel(m_photos);
   ui.verticalLayout->addWidget(m_marble);
 
   QObject::connect(ui.pb_loadPhoto, SIGNAL(clicked()), this, SLOT(selectFile()));
@@ -64,7 +62,8 @@ void Window::filesSelected(const QStringList &selected)
 
 void Window::photoClicked(const QModelIndex &index)
 {
-  QStandardItem *item = m_photos.itemFromIndex(index);
+  QStandardItemModel *model = (QStandardItemModel *)ui.lw_photos->model();
+  QStandardItem *item = model->itemFromIndex(index);
   QVariant v = item->data(16);
   Photo photo = v.value<Photo>();
   centerMapOn(&photo);
@@ -74,14 +73,7 @@ void Window::centerMapOn(Photo *photo)
 {
   ui.l_photo->setPixmap(photo->getThumbnail()); 
   m_marble->centerOn(photo->getGpsLong(), photo->getGpsLat());
-  m_marble->zoomView(2000);
+  m_marble->zoomView(2500);
 }
 
-void Window::addPhoto(Photo photo)
-{
-  QStandardItem *newItem = new QStandardItem(QIcon(photo.getThumbnail()), photo.getTimestamp().toString());
-  newItem->setEditable(false);
-  newItem->setData(QVariant::fromValue(photo), 16);
-  m_photos.appendRow(newItem);
-}
 

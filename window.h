@@ -53,7 +53,9 @@ class Window : public QDialog
     void selectFile();
     void filesSelected(const QStringList &files);
     void photoClicked(const QModelIndex &index);
-
+    void backPressed();
+    void nextPressed();
+  
   signals:  
     void selectedFiles(const QStringList &files);
 };

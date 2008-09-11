@@ -24,7 +24,7 @@ Trippy::Trippy()
   m_window = new Window();
   m_window->show();
   
-  m_window->ui.lw_photos->setModel(&m_photos);
+  m_window->ui.lv_photos->setModel(&m_photos);
   m_window->m_marble->setPhotoModel(m_photos);
 
   QObject::connect(m_window, SIGNAL(selectedFiles(const QStringList &)), this, SLOT(filesSelected(const QStringList &)));
@@ -47,16 +47,16 @@ void Trippy::filesSelected(const QStringList &selected)
     if (!photo.isGeoTagged())
     {
       QMessageBox::critical(m_window, "Cannot find any geotagging metadata",
-                             QString("No geotag metadata was found in the specified photo: %1.\n").arg(selected[i]));
+                            QString("No geotag metadata was found in the specified photo: %1.\n").arg(selected[i]));
     }
     else
     {
       addPhoto(photo);
     }
-    sortPhotos();
     m_loadScreen->ui.progressBar->setValue(i + 1);
   }
 
+  sortPhotos();
   m_window->repaintMarbleWidget();
 }
 

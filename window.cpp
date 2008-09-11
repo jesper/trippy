@@ -23,7 +23,8 @@ Window::Window(QWidget *parent)
     :QDialog(parent)
 {
   ui.setupUi(this);
-  
+
+  ui.lv_photos->setIconSize(QSize(64, 64));
   m_marble = new TrippyMarbleWidget(this);
   m_marble->setMapThemeId(QLatin1String("earth/srtm/srtm.dgml"));
   m_marble->setShowCompass(false);
@@ -32,16 +33,19 @@ Window::Window(QWidget *parent)
   m_marble->setProjection(Mercator);
 
   ui.verticalLayout->addWidget(m_marble);
-
-  QObject::connect(ui.pb_loadPhoto, SIGNAL(clicked()), this, SLOT(selectFile()));
   
   m_fileDialog = new QFileDialog(this, "Select geo-tagged images");
   m_fileDialog->setNameFilter("Image Files (*.jpg)");
   m_fileDialog->setFileMode(QFileDialog::ExistingFiles);  
 
+  QObject::connect(ui.pb_loadPhoto, SIGNAL(clicked()), this, SLOT(selectFile()));
+
   QObject::connect(m_fileDialog, SIGNAL(filesSelected(const QStringList &)), this, SLOT(filesSelected(const QStringList &)));
 
-  QObject::connect(ui.lw_photos, SIGNAL(clicked(const QModelIndex &)), this, SLOT(photoClicked(const QModelIndex &)));
+  QObject::connect(ui.lv_photos, SIGNAL(clicked(const QModelIndex &)), this, SLOT(photoClicked(const QModelIndex &)));
+  
+  QObject::connect(ui.pb_back, SIGNAL(clicked()), this, SLOT(backPressed()));
+  QObject::connect(ui.pb_next, SIGNAL(clicked()), this, SLOT(nextPressed()));
 }
 
 void Window::repaintMarbleWidget()
@@ -54,6 +58,25 @@ void Window::selectFile()
   m_fileDialog->show();
 }
 
+void Window::backPressed()
+{
+  qDebug() << "Back pressed";
+}
+
+void Window::nextPressed()
+{
+  int currentRow = ui.lv_photos->currentIndex().row();
+  QStandardItem *nextItem = ((QStandardItemModel *)ui.lv_photos->model())->item(currentRow+1);
+  
+  if (!nextItem)
+  {
+    nextItem = ((QStandardItemModel *)ui.lv_photos->model())->item(0);
+  }
+  
+  ui.lv_photos->setCurrentIndex(nextItem->index());
+  photoClicked(nextItem->index());
+}
+
 void Window::filesSelected(const QStringList &selected)
 {
   m_fileDialog->hide();
@@ -62,7 +85,7 @@ void Window::filesSelected(const QStringList &selected)
 
 void Window::photoClicked(const QModelIndex &index)
 {
-  QStandardItemModel *model = (QStandardItemModel *)ui.lw_photos->model();
+  QStandardItemModel *model = (QStandardItemModel *)ui.lv_photos->model();
   QStandardItem *item = model->itemFromIndex(index);
   QVariant v = item->data(16);
   Photo photo = v.value<Photo>();

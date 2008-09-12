@@ -21,6 +21,7 @@
 #define WINDOW_H
 
 #include <QtGui>
+#include <QStandardItemModel>
 
 #include <MarbleWidget.h>
 
@@ -28,7 +29,6 @@
 #include "trippymarblewidget.h"
 #include "photo.h"
 #include "loadscreen.h"
-#include <QStandardItemModel>
 
 using namespace Marble;
 

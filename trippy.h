@@ -25,6 +25,7 @@
 
 #include "window.h"
 #include "photo.h"
+#include "roles.h"
 
 class Trippy : public QObject
 {

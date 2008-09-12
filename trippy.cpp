@@ -64,9 +64,9 @@ void Trippy::addPhoto(Photo photo)
 {
   QStandardItem *newItem = new QStandardItem(QIcon(photo.getThumbnail()), photo.getTimestamp().toString());
   newItem->setEditable(false);
-  newItem->setData(QVariant::fromValue(photo), Qt::UserRole);
-  newItem->setData(photo.getTimestamp(), Qt::UserRole + 1);
-  newItem->setData(false, Qt::UserRole + 2);
+  newItem->setData(QVariant::fromValue(photo), PhotoRole);
+  newItem->setData(photo.getTimestamp(), TimestampRole);
+  newItem->setData(false, SelectedRole);
   newItem->setData(photo.getFilename(), Qt::ToolTipRole);
   m_photos.appendRow(newItem);
 }

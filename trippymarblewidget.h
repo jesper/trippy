@@ -22,8 +22,10 @@
 
 #include <MarbleWidget.h>
 #include <GeoPainter.h>
-
 #include <QStandardItemModel>
+
+#include "photo.h"
+#include "roles.h"
 
 using namespace Marble;
 

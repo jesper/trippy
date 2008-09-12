@@ -18,7 +18,6 @@
 */
 
 #include "trippymarblewidget.h"
-#include "photo.h"
 
 TrippyMarbleWidget::TrippyMarbleWidget(QWidget *parent)
   : MarbleWidget(parent)
@@ -48,9 +47,9 @@ void TrippyMarbleWidget::customPaint(GeoPainter *painter)
 
   for (int i=0; i<m_photoModel->rowCount(); ++i)
   {
-    QVariant v = m_photoModel->item(i)->data(Qt::UserRole);
+    QVariant v = m_photoModel->item(i)->data(PhotoRole);
     Photo current = v.value<Photo>();
-    isSelected = m_photoModel->item(i)->data(Qt::UserRole + 2).toBool();
+    isSelected = m_photoModel->item(i)->data(SelectedRole).toBool();
 
     if (isSelected)
     {
@@ -62,7 +61,7 @@ void TrippyMarbleWidget::customPaint(GeoPainter *painter)
 
     if (i != 0)
     {
-      QVariant v = m_photoModel->item(i - 1)->data(Qt::UserRole);
+      QVariant v = m_photoModel->item(i - 1)->data(PhotoRole);
       Photo last = v.value<Photo>();
 
       if (isSelected)

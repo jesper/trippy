@@ -52,8 +52,16 @@ class Window : public QMainWindow
     void selectFile();
     void filesSelected(const QStringList &files);
     void photoClicked(const QModelIndex &index);
-    void backPressed();
-    void nextPressed();
+    void hideMapClutter();
+
+    //Buttons/Menu items
+    void backClicked();
+    void nextClicked();
+    void atlasClicked();
+    void openStreetMapClicked();
+    void mercatorClicked();
+    void flatClicked();
+    void globeClicked();
   
   signals:  
     void selectedFiles(const QStringList &files);

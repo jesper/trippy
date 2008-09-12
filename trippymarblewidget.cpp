@@ -71,7 +71,7 @@ void TrippyMarbleWidget::customPaint(GeoPainter *painter)
         selected_source = GeoDataCoordinates(last.getGpsLong(), last.getGpsLat(), 0 , GeoDataCoordinates::Degree);
       }
 
-      painter->drawLine(GeoDataCoordinates(current.getGpsLong(), current.getGpsLat(), 0 , GeoDataCoordinates::Degree), GeoDataCoordinates(last.getGpsLong(), last.getGpsLat(), 0 , GeoDataCoordinates::Degree) );
+      painter->drawLine(GeoDataCoordinates(current.getGpsLong(), current.getGpsLat(), 0 , GeoDataCoordinates::Degree), GeoDataCoordinates(last.getGpsLong(), last.getGpsLat(), 0 , GeoDataCoordinates::Degree));
     }
   }
 

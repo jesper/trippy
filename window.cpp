@@ -24,13 +24,14 @@ Window::Window(QWidget *parent)
 {
   ui.setupUi(this);
 
-  ui.lv_photos->setIconSize(QSize(64, 64));
+  ui.lv_photos->setIconSize(QSize(60, 60));
   m_marble = new TrippyMarbleWidget(this);
-  m_marble->setMapThemeId(QLatin1String("earth/srtm/srtm.dgml"));
-  m_marble->setShowCompass(false);
-  m_marble->setShowScaleBar(false);
-  m_marble->setShowOverviewMap(false);
-  m_marble->setProjection(Mercator);
+
+  //Default view for now is mercator and Atlas, since they're my favorite at the moment.
+  ui.actionAtlas->trigger();
+  atlasClicked();
+  ui.actionMercator->trigger();
+  mercatorClicked();
 
   ui.verticalLayout->addWidget(m_marble);
   
@@ -39,14 +40,34 @@ Window::Window(QWidget *parent)
   m_fileDialog->setFileMode(QFileDialog::ExistingFiles);  
 
   m_previousItem = new QStandardItem;
-  QObject::connect(ui.pb_loadPhoto, SIGNAL(clicked()), this, SLOT(selectFile()));
 
+  //Add photos button and menu item
+  QObject::connect(ui.pb_addPhotos, SIGNAL(clicked()), this, SLOT(selectFile()));
+  QObject::connect(ui.action_Add_Photos, SIGNAL(triggered()), this, SLOT(selectFile()));
+
+  //Menubar items:
+  QObject::connect(ui.actionAtlas, SIGNAL(triggered()), this, SLOT(atlasClicked()));
+  QObject::connect(ui.actionOpen_Street_Map, SIGNAL(triggered()), this, SLOT(openStreetMapClicked()));
+  QObject::connect(ui.actionFlat, SIGNAL(triggered()), this, SLOT(flatClicked()));
+  QObject::connect(ui.actionMercator, SIGNAL(triggered()), this, SLOT(mercatorClicked()));
+  QObject::connect(ui.actionGlobe, SIGNAL(triggered()), this, SLOT(globeClicked()));
+
+  //Files selected from the file dialog
   QObject::connect(m_fileDialog, SIGNAL(filesSelected(const QStringList &)), this, SLOT(filesSelected(const QStringList &)));
 
+  //An item (photo) was clicked in the list view.
   QObject::connect(ui.lv_photos, SIGNAL(clicked(const QModelIndex &)), this, SLOT(photoClicked(const QModelIndex &)));
   
-  QObject::connect(ui.pb_back, SIGNAL(clicked()), this, SLOT(backPressed()));
-  QObject::connect(ui.pb_next, SIGNAL(clicked()), this, SLOT(nextPressed()));
+  //Back and Next buttons
+  QObject::connect(ui.pb_back, SIGNAL(clicked()), this, SLOT(backClicked()));
+  QObject::connect(ui.pb_next, SIGNAL(clicked()), this, SLOT(nextClicked()));
+}
+
+void Window::hideMapClutter()
+{
+  m_marble->setShowCompass(false);
+  m_marble->setShowScaleBar(false);
+  m_marble->setShowOverviewMap(false);
 }
 
 void Window::repaintMarbleWidget()
@@ -59,7 +80,7 @@ void Window::selectFile()
   m_fileDialog->show();
 }
 
-void Window::backPressed()
+void Window::backClicked()
 {
   int rowCount = ((QStandardItemModel *)ui.lv_photos->model())->rowCount();
 
@@ -80,7 +101,7 @@ void Window::backPressed()
   photoClicked(nextItem->index());
 }
 
-void Window::nextPressed()
+void Window::nextClicked()
 {
   int rowCount = ((QStandardItemModel *)ui.lv_photos->model())->rowCount();
 
@@ -130,3 +151,37 @@ void Window::centerMapOn(Photo *photo)
 }
 
 
+void Window::atlasClicked()
+{
+  m_marble->setMapThemeId(QLatin1String("earth/srtm/srtm.dgml"));
+  ui.actionOpen_Street_Map->setChecked(false);
+  hideMapClutter();
+}
+
+void Window::openStreetMapClicked()
+{
+  m_marble->setMapThemeId(QLatin1String("earth/openstreetmap/openstreetmap.dgml"));
+  ui.actionAtlas->setChecked(false);
+  hideMapClutter();
+}
+
+void Window::mercatorClicked()
+{
+  m_marble->setProjection(Mercator);
+  ui.actionGlobe->setChecked(false);
+  ui.actionFlat->setChecked(false);
+}
+
+void Window::flatClicked()
+{
+  m_marble->setProjection(Equirectangular);
+  ui.actionGlobe->setChecked(false);
+  ui.actionMercator->setChecked(false);
+}
+
+void Window::globeClicked()
+{
+  m_marble->setProjection(Spherical);
+  ui.actionMercator->setChecked(false);
+  ui.actionFlat->setChecked(false);
+}

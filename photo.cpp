@@ -19,11 +19,8 @@
 
 #include "photo.h"
 
-#include <exiv2/image.hpp>
-#include <exiv2/exif.hpp>
-
 Photo::Photo(const QString &path)
-  : QPixmap(path), m_gpsLat(-1), m_gpsLong(-1)
+  : QPixmap(path), m_gpsLat(-1), m_gpsLong(-1), m_filename(path) 
 {
   Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path.toStdString());
   image->readMetadata();
@@ -33,7 +30,38 @@ Photo::Photo(const QString &path)
     qDebug() << "Whoops! Couldnt find any metadata in" << path;  
     return;
   }
+
+/*
+  key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
+  Exiv2::ExifData::iterator pos = exifData.findKey(key);
+  if (pos == exifData.end()) throw Exiv2::Error(1, "Key not found");
+*/
+  //
+  if (!exivHasKey("Exif.GPSInfo.GPSLatitudeRef", exifData))
+  {
+    return;
+  }
   
+  if (!exivHasKey("Exif.GPSInfo.GPSLongitudeRef", exifData))
+  {
+    return;
+  }
+  
+  if (!exivHasKey("Exif.GPSInfo.GPSLatitude", exifData))
+  {
+    return;
+  }
+  
+  if (!exivHasKey("Exif.GPSInfo.GPSLongitude", exifData))
+  {
+    return;
+  }
+  
+  if (!exivHasKey("Exif.Photo.DateTimeOriginal", exifData))
+  {
+    return;
+  }
+
   QString gpsLatRef = QString::fromStdString(exifData["Exif.GPSInfo.GPSLatitudeRef"].value().toString());
   QString gpsLongRef = QString::fromStdString(exifData["Exif.GPSInfo.GPSLongitudeRef"].value().toString());
 
@@ -52,6 +80,12 @@ Photo::Photo(const QString &path)
                 "yyyy:MM:dd HH:mm:ss");
 
   m_thumbnail = this->scaled(QSize(280, 280), Qt::KeepAspectRatio);
+}
+
+bool Photo::exivHasKey(QString key, Exiv2::ExifData &data)
+{
+  Exiv2::ExifData::iterator pos = data.findKey(Exiv2::ExifKey(key.toStdString()));
+  return (pos != data.end());
 }
 
 qreal Photo::getGpsLong()
@@ -77,6 +111,11 @@ QDateTime Photo::getTimestamp()
 bool Photo::isGeoTagged()
 {
   return ((m_gpsLat != -1) && (m_gpsLong != -1));
+}
+
+QString Photo::getFilename()
+{
+  return m_filename;
 }
 
 qreal Photo::convertToCoordinate(QString coord, QString ref)

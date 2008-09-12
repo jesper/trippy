@@ -26,6 +26,11 @@
 #include <QDateTime>
 #include <QDebug>
 
+#include <exiv2/image.hpp>
+#include <exiv2/exif.hpp>
+#include <exiv2/tags.hpp>
+
+
 
 class Photo : public QPixmap
 {
@@ -36,14 +41,17 @@ class Photo : public QPixmap
     qreal getGpsLat();
     qreal getGpsLong();
     QDateTime getTimestamp();
+    QString getFilename();
 
   private:
+    bool exivHasKey(QString key, Exiv2::ExifData &data);
     qreal convertToCoordinate(QString coord, QString ref);
 
     QPixmap m_thumbnail;
     QDateTime m_timestamp;
     qreal m_gpsLat;
     qreal m_gpsLong;
+    QString m_filename;
 };
 
 Q_DECLARE_METATYPE(Photo)

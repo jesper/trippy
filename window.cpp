@@ -60,12 +60,36 @@ void Window::selectFile()
 
 void Window::backPressed()
 {
-  qDebug() << "Back pressed";
+  int rowCount = ((QStandardItemModel *)ui.lv_photos->model())->rowCount();
+
+  if (0 == rowCount)
+  {
+    return;
+  }
+
+  int currentRow = ui.lv_photos->currentIndex().row();
+  QStandardItem *nextItem = ((QStandardItemModel *)ui.lv_photos->model())->item(currentRow-1);
+  
+  if (!nextItem)
+  {
+    nextItem = ((QStandardItemModel *)ui.lv_photos->model())->item(rowCount-1);
+  }
+  
+  ui.lv_photos->setCurrentIndex(nextItem->index());
+  photoClicked(nextItem->index());
 }
 
 void Window::nextPressed()
 {
+  int rowCount = ((QStandardItemModel *)ui.lv_photos->model())->rowCount();
+
+  if (0 == rowCount)
+  {
+    return;
+  }
+
   int currentRow = ui.lv_photos->currentIndex().row();
+  
   QStandardItem *nextItem = ((QStandardItemModel *)ui.lv_photos->model())->item(currentRow+1);
   
   if (!nextItem)

@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>851</width>
-    <height>692</height>
+    <height>732</height>
    </rect>
   </property>
   <property name="sizeIncrement" >
@@ -38,10 +38,16 @@
      </property>
      <item>
       <widget class="QLabel" name="l_photo" >
+       <property name="minimumSize" >
+        <size>
+         <width>280</width>
+         <height>280</height>
+        </size>
+       </property>
        <property name="maximumSize" >
         <size>
-         <width>16777215</width>
-         <height>16777215</height>
+         <width>280</width>
+         <height>280</height>
         </size>
        </property>
        <property name="text" >
@@ -75,7 +81,7 @@
        <property name="minimumSize" >
         <size>
          <width>0</width>
-         <height>400</height>
+         <height>320</height>
         </size>
        </property>
       </widget>

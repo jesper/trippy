@@ -135,9 +135,12 @@ void Window::photoClicked(const QModelIndex &index)
   QStandardItem *item = model->itemFromIndex(index);
   item->setData(true, Qt::UserRole + 2);
 
-  m_previousItem->setData(false, Qt::UserRole + 2);
-  m_previousItem = item;
- 
+  if (item != m_previousItem)
+  {
+    m_previousItem->setData(false, Qt::UserRole + 2);
+    m_previousItem = item;
+  }
+
   QVariant v = item->data(Qt::UserRole);
   Photo photo = v.value<Photo>();
   centerMapOn(&photo);

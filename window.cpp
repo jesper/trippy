@@ -20,7 +20,7 @@
 #include "window.h"
 
 Window::Window(QWidget *parent)
-    :QDialog(parent)
+    :QMainWindow(parent)
 {
   ui.setupUi(this);
 

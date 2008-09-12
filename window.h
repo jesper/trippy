@@ -32,7 +32,7 @@
 
 using namespace Marble;
 
-class Window : public QDialog
+class Window : public QMainWindow
 {
   Q_OBJECT
   public:

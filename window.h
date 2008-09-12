@@ -46,8 +46,7 @@ class Window : public QDialog
 
   private:
     QFileDialog *m_fileDialog;
-    QStandardItemModel m_photos;
-    
+    QStandardItem *m_previousItem; 
  
   private slots:
     void selectFile();

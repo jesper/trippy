@@ -39,33 +39,52 @@ void TrippyMarbleWidget::customPaint(GeoPainter *painter)
   pen.setWidth(2);
   painter->setPen(pen);
 
+  GeoDataCoordinates selected;
+  GeoDataCoordinates selected_source;
+
+  bool selectionExists = false;
+  bool selectionSourceExists = false;
+  bool isSelected = false;
+
   for (int i=0; i<m_photoModel->rowCount(); ++i)
   {
-    QVariant v = m_photoModel->item(i)->data(16);
+    QVariant v = m_photoModel->item(i)->data(Qt::UserRole);
     Photo current = v.value<Photo>();
-    painter->drawEllipse(GeoDataCoordinates(current.getGpsLong(), current.getGpsLat(), 0 , GeoDataCoordinates::Degree),10,10);
+    isSelected = m_photoModel->item(i)->data(Qt::UserRole + 2).toBool();
+
+    if (isSelected)
+    {
+      selectionExists = true;
+      selected = GeoDataCoordinates(current.getGpsLong(), current.getGpsLat(), 0 , GeoDataCoordinates::Degree);
+    }
+    
+    painter->drawEllipse(GeoDataCoordinates(current.getGpsLong(), current.getGpsLat(), 0 , GeoDataCoordinates::Degree), 6, 6);
+
     if (i != 0)
     {
-      QVariant v = m_photoModel->item(i - 1)->data(16);
+      QVariant v = m_photoModel->item(i - 1)->data(Qt::UserRole);
       Photo last = v.value<Photo>();
+
+      if (isSelected)
+      {
+        selectionSourceExists = true;
+        selected_source = GeoDataCoordinates(last.getGpsLong(), last.getGpsLat(), 0 , GeoDataCoordinates::Degree);
+      }
+
       painter->drawLine(GeoDataCoordinates(current.getGpsLong(), current.getGpsLat(), 0 , GeoDataCoordinates::Degree), GeoDataCoordinates(last.getGpsLong(), last.getGpsLat(), 0 , GeoDataCoordinates::Degree) );
     }
   }
-  
 
-/*  QPen pen(Qt::blue);
-  painter->setPen(pen);
+  //re-drawing the currently selected item, this time in red to make it stand out.
+  if (selectionExists)
+  {
+    pen.setColor(Qt::red);
+    painter->setPen(pen);
 
-  painter->drawLine(GeoDataCoordinates(qreal(10.7579), qreal(59.9369), 0 , GeoDataCoordinates::Degree),
-                    GeoDataCoordinates(qreal(10), qreal(59), 0 , GeoDataCoordinates::Degree) );
-
-  painter->setBrush(Qt::green);
-  painter->drawEllipse(GeoDataCoordinates(qreal(10.7579), qreal(59.9369), 0 , GeoDataCoordinates::Degree)
-                       , 20, 20);
-  
-  painter->setBrush(Qt::darkMagenta);
-  
-  painter->drawEllipse(GeoDataCoordinates(qreal(10), qreal(59), 0 , GeoDataCoordinates::Degree)
-                       , 20, 20);
-*/
+    painter->drawEllipse(selected, 6, 6);
+    if (selectionSourceExists)
+    {
+      painter->drawLine(selected, selected_source);
+    }
+  }
 }

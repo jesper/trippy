@@ -38,6 +38,7 @@ Window::Window(QWidget *parent)
   m_fileDialog->setNameFilter("Image Files (*.jpg)");
   m_fileDialog->setFileMode(QFileDialog::ExistingFiles);  
 
+  m_previousItem = new QStandardItem;
   QObject::connect(ui.pb_loadPhoto, SIGNAL(clicked()), this, SLOT(selectFile()));
 
   QObject::connect(m_fileDialog, SIGNAL(filesSelected(const QStringList &)), this, SLOT(filesSelected(const QStringList &)));
@@ -111,7 +112,12 @@ void Window::photoClicked(const QModelIndex &index)
 {
   QStandardItemModel *model = (QStandardItemModel *)ui.lv_photos->model();
   QStandardItem *item = model->itemFromIndex(index);
-  QVariant v = item->data(16);
+  item->setData(true, Qt::UserRole + 2);
+
+  m_previousItem->setData(false, Qt::UserRole + 2);
+  m_previousItem = item;
+ 
+  QVariant v = item->data(Qt::UserRole);
   Photo photo = v.value<Photo>();
   centerMapOn(&photo);
 }

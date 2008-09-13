@@ -157,6 +157,7 @@ void Window::centerMapOn(Photo *photo)
 void Window::atlasClicked()
 {
   m_marble->setMapThemeId(QLatin1String("earth/srtm/srtm.dgml"));
+  ui.actionAtlas->setChecked(true);
   ui.actionOpen_Street_Map->setChecked(false);
   hideMapClutter();
 }
@@ -164,6 +165,7 @@ void Window::atlasClicked()
 void Window::openStreetMapClicked()
 {
   m_marble->setMapThemeId(QLatin1String("earth/openstreetmap/openstreetmap.dgml"));
+  ui.actionOpen_Street_Map->setChecked(true);
   ui.actionAtlas->setChecked(false);
   hideMapClutter();
 }
@@ -171,6 +173,7 @@ void Window::openStreetMapClicked()
 void Window::mercatorClicked()
 {
   m_marble->setProjection(Mercator);
+  ui.actionMercator->setChecked(true);
   ui.actionGlobe->setChecked(false);
   ui.actionFlat->setChecked(false);
 }
@@ -178,6 +181,7 @@ void Window::mercatorClicked()
 void Window::flatClicked()
 {
   m_marble->setProjection(Equirectangular);
+  ui.actionFlat->setChecked(true);
   ui.actionGlobe->setChecked(false);
   ui.actionMercator->setChecked(false);
 }
@@ -185,6 +189,7 @@ void Window::flatClicked()
 void Window::globeClicked()
 {
   m_marble->setProjection(Spherical);
+  ui.actionGlobe->setChecked(true);
   ui.actionMercator->setChecked(false);
   ui.actionFlat->setChecked(false);
 }

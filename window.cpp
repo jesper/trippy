@@ -27,6 +27,9 @@ Window::Window(QWidget *parent)
   ui.lv_photos->setIconSize(QSize(60, 60));
   m_marble = new TrippyMarbleWidget(this);
 
+  //Needed to fetch missing tiles. Hope it's alright to use this KDE hosted one...
+  m_marble->setDownloadUrl( "http://download.kde.org/apps/marble/" );
+
   //Default view for now is mercator and Atlas, since they're my favorite at the moment.
   ui.actionAtlas->trigger();
   atlasClicked();
@@ -150,7 +153,7 @@ void Window::centerMapOn(Photo *photo)
 {
   ui.l_photo->setPixmap(photo->getThumbnail()); 
   m_marble->centerOn(photo->getGpsLong(), photo->getGpsLat());
-  m_marble->zoomView(2500);
+  m_marble->zoomView(3000);
 }
 
 

@@ -60,6 +60,7 @@ void Trippy::filesSelected(const QStringList &selected)
   m_window->repaintMarbleWidget();
 }
 
+//Takes a Photo object and creates a QStandardItem, then places it into the model.
 void Trippy::addPhoto(Photo photo)
 {
   QStandardItem *newItem = new QStandardItem(QIcon(photo.getThumbnail()), photo.getTimestamp().toString());
@@ -75,7 +76,7 @@ void Trippy::sortPhotos()
 {
   QList<QStandardItem *> photos;
 
-  //Lets move the items from the model to a list...
+  //Move the items from the model to a list...
   while (m_photos.rowCount() > 0)
   {
     photos.append(m_photos.takeRow(0).first());
@@ -102,7 +103,8 @@ void Trippy::sortPhotos()
   {
     QStandardItem *temp = photos.at(n);
     int j = n - 1;
-    while ((j >= 0) && (photos.at(j)->data(TimestampRole).toDateTime() > temp->data(TimestampRole).toDateTime()))
+    while ((j >= 0) && 
+          (photos.at(j)->data(TimestampRole).toDateTime() > temp->data(TimestampRole).toDateTime()))
     {
       photos[j + 1] = photos.at(j);
       j = j-1;

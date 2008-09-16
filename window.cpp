@@ -128,6 +128,9 @@ void Window::nextClicked()
 
 void Window::filesSelected(const QStringList &selected)
 {
+  ui.pb_next->setEnabled(true);
+  ui.pb_back->setEnabled(true);
+ 
   m_fileDialog->hide();
   emit selectedFiles(selected);
 }

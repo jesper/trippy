@@ -15,4 +15,3 @@ SOURCES += main.cpp window.cpp photo.cpp trippy.cpp trippymarblewidget.cpp loads
 
 LIBS += -L/home/jesper/kde/lib -lmarblewidget
 LIBS += -lexiv2
-

@@ -73,5 +73,46 @@ void Trippy::addPhoto(Photo photo)
 
 void Trippy::sortPhotos()
 {
-  qDebug() << "Sort here please";  
+  QList<QStandardItem *> photos;
+
+  //Lets move the items from the model to a list...
+  while (m_photos.rowCount() > 0)
+  {
+    photos.append(m_photos.takeRow(0).first());
+  }
+
+  /* A very simple version of insertion sort from wikipedia...
+
+  insertionSort(array A)
+    for i = 1 to length[A]-1 do
+    begin
+        value = A[i]
+        j = i-1
+        while j ≥ 0 and A[j] > value do
+        begin
+            A[j + 1] = A[j]
+            j = j-1
+        end
+        A[j+1] = value
+    end
+  */
+
+  //Using insertion sort to sort the items in the List by timestamp.
+  for (int n=0; n < photos.size(); ++n)
+  {
+    QStandardItem *temp = photos.at(n);
+    int j = n - 1;
+    while ((j >= 0) && (photos.at(j)->data(TimestampRole).toDateTime() > temp->data(TimestampRole).toDateTime()))
+    {
+      photos[j + 1] = photos.at(j);
+      j = j-1;
+    }
+    photos[j+1] = temp;
+  }
+
+  //Put the sorted items back into the model.
+  for (int k=0; k < photos.size(); ++k)
+  {
+    m_photos.insertRow(k, photos.at(k));
+  }
 }

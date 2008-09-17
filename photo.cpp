@@ -20,7 +20,7 @@
 #include "photo.h"
 
 Photo::Photo(const QString &path)
-  : QPixmap(path), m_gpsLat(-1), m_gpsLong(-1), m_filename(path) 
+  : m_gpsLat(-1), m_gpsLong(-1), m_filename(path) 
 {
   Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path.toStdString());
   image->readMetadata();
@@ -31,12 +31,6 @@ Photo::Photo(const QString &path)
     return;
   }
 
-/*
-  key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
-  Exiv2::ExifData::iterator pos = exifData.findKey(key);
-  if (pos == exifData.end()) throw Exiv2::Error(1, "Key not found");
-*/
-  //
   if (!exivHasKey("Exif.GPSInfo.GPSLatitudeRef", exifData))
   {
     return;
@@ -78,8 +72,6 @@ Photo::Photo(const QString &path)
   m_timestamp = QDateTime::fromString(
                 QString::fromStdString(exifData["Exif.Photo.DateTimeOriginal"].value().toString()),
                 "yyyy:MM:dd HH:mm:ss");
-
-  m_thumbnail = this->scaled(QSize(280, 280), Qt::KeepAspectRatio);
 }
 
 bool Photo::exivHasKey(QString key, Exiv2::ExifData &data)
@@ -100,7 +92,12 @@ qreal Photo::getGpsLat()
 
 QPixmap Photo::getThumbnail()
 {
-  return m_thumbnail;
+  return getImage().scaled(QSize(280, 280), Qt::KeepAspectRatio);
+}
+
+QPixmap Photo::getImage()
+{
+  return QPixmap(m_filename);
 }
 
 QDateTime Photo::getTimestamp()

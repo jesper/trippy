@@ -32,11 +32,12 @@
 
 
 
-class Photo : public QPixmap
+class Photo
 {
   public:
     Photo(const QString &path = 0);
     bool isGeoTagged();
+    QPixmap getImage();
     QPixmap getThumbnail();
     qreal getGpsLat();
     qreal getGpsLong();
@@ -47,7 +48,6 @@ class Photo : public QPixmap
     bool exivHasKey(QString key, Exiv2::ExifData &data);
     qreal convertToCoordinate(QString coord, QString ref);
 
-    QPixmap m_thumbnail;
     QDateTime m_timestamp;
     qreal m_gpsLat;
     qreal m_gpsLong;

@@ -26,14 +26,13 @@ LoadScreen::LoadScreen(QWidget *parent)
   showFailedPhotos(false);
 }
 
+void LoadScreen::clearFailedPhotos()
+{
+    ui.lw_failPhotos->clear();
+}
+
 void LoadScreen::showFailedPhotos(bool show)
 {
   ui.gb_failures->setVisible(show);
-
-  if (show)
-  {
-    ui.lw_failPhotos->clear();
-  }
-
   adjustSize();
 }

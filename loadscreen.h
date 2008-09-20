@@ -30,6 +30,7 @@ class LoadScreen : public QDialog
   public:
     LoadScreen(QWidget *parent=0);
     void showFailedPhotos(bool show);
+    void clearFailedPhotos();
 
     Ui::loadScreen ui;
 

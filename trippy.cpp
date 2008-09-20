@@ -34,21 +34,25 @@ Trippy::Trippy()
 
 void Trippy::filesSelected(const QStringList &selected)
 {
+  QStringList sortedFiles = selected;
+  sortedFiles.sort();
+
   m_loadScreen->ui.progressBar->setValue(0);
-  m_loadScreen->ui.progressBar->setMaximum(selected.size());
+  m_loadScreen->ui.progressBar->setMaximum(sortedFiles.size());
   m_loadScreen->ui.l_currentPhoto->setText("");
   m_loadScreen->showFailedPhotos(false);
+  m_loadScreen->clearFailedPhotos();
 
   m_loadScreen->show();
 
-  for (int i=0; i<selected.size(); ++i)
+  for (int i=0; i < sortedFiles.size(); ++i)
   {
-    m_loadScreen->ui.l_currentPhoto->setText(selected[i]);
-    Photo photo(selected[i]);
+    m_loadScreen->ui.l_currentPhoto->setText(sortedFiles[i]);
+    Photo photo(sortedFiles[i]);
     if (!photo.isGeoTagged())
     {
       m_loadScreen->showFailedPhotos(true); 
-      m_loadScreen->ui.lw_failPhotos->addItem(selected[i]);
+      m_loadScreen->ui.lw_failPhotos->addItem(sortedFiles[i]);
     }
     else
     {

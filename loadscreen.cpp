@@ -23,4 +23,17 @@ LoadScreen::LoadScreen(QWidget *parent)
   :QDialog(parent)
 {
   ui.setupUi(this);
+  showFailedPhotos(false);
+}
+
+void LoadScreen::showFailedPhotos(bool show)
+{
+  ui.gb_failures->setVisible(show);
+
+  if (show)
+  {
+    ui.lw_failPhotos->clear();
+  }
+
+  adjustSize();
 }

@@ -34,11 +34,12 @@ Trippy::Trippy()
 
 void Trippy::filesSelected(const QStringList &selected)
 {
-  m_loadScreen->show();
-
   m_loadScreen->ui.progressBar->setValue(0);
   m_loadScreen->ui.progressBar->setMaximum(selected.size());
   m_loadScreen->ui.l_currentPhoto->setText("");
+  m_loadScreen->showFailedPhotos(false);
+
+  m_loadScreen->show();
 
   for (int i=0; i<selected.size(); ++i)
   {
@@ -46,8 +47,8 @@ void Trippy::filesSelected(const QStringList &selected)
     Photo photo(selected[i]);
     if (!photo.isGeoTagged())
     {
-      QMessageBox::critical(m_window, "Cannot find any geotagging metadata",
-                            QString("No geotag metadata was found in the specified photo: %1.\n").arg(selected[i]));
+      m_loadScreen->showFailedPhotos(true); 
+      m_loadScreen->ui.lw_failPhotos->addItem(selected[i]);
     }
     else
     {

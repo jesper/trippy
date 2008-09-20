@@ -29,7 +29,10 @@ class LoadScreen : public QDialog
   Q_OBJECT
   public:
     LoadScreen(QWidget *parent=0);
+    void showFailedPhotos(bool show);
+
     Ui::loadScreen ui;
+
 };
 
 #endif

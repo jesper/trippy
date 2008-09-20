@@ -1,13 +1,22 @@
 <ui version="4.0" >
  <class>loadScreen</class>
  <widget class="QWidget" name="loadScreen" >
+  <property name="windowModality" >
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>477</width>
-    <height>69</height>
+    <width>600</width>
+    <height>349</height>
    </rect>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>500</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="windowTitle" >
    <string>Loading Photos...</string>
@@ -51,8 +60,71 @@
      </property>
     </widget>
    </item>
+   <item>
+    <layout class="QVBoxLayout" name="layout_failures" >
+     <item>
+      <widget class="QGroupBox" name="gb_failures" >
+       <property name="maximumSize" >
+        <size>
+         <width>16777215</width>
+         <height>300</height>
+        </size>
+       </property>
+       <property name="title" >
+        <string>Could not load required metadata from the following files:</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3" >
+        <item>
+         <widget class="QListWidget" name="lw_failPhotos" />
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout" >
+     <item>
+      <spacer name="horizontalSpacer" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_2" >
+       <property name="text" >
+        <string>Close</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>loadScreen</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>484</x>
+     <y>348</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>263</x>
+     <y>184</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

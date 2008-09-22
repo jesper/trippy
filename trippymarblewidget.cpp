@@ -38,8 +38,8 @@ void TrippyMarbleWidget::customPaint(GeoPainter *painter)
   pen.setWidth(2);
   painter->setPen(pen);
 
-  GeoDataCoordinates selected;
-  GeoDataCoordinates selected_source;
+  GeoDataPoint selected;
+  GeoDataPoint selected_source;
 
   bool selectionExists = false;
   bool selectionSourceExists = false;
@@ -54,10 +54,10 @@ void TrippyMarbleWidget::customPaint(GeoPainter *painter)
     if (isSelected)
     {
       selectionExists = true;
-      selected = GeoDataCoordinates(current.getGpsLong(), current.getGpsLat(), 0 , GeoDataCoordinates::Degree);
+      selected = GeoDataPoint(current.getGpsLong(), current.getGpsLat(), 0 , GeoDataCoordinates::Degree);
     }
     
-    painter->drawEllipse(GeoDataCoordinates(current.getGpsLong(), current.getGpsLat(), 0 , GeoDataCoordinates::Degree), 6, 6);
+    painter->drawEllipse(GeoDataPoint(current.getGpsLong(), current.getGpsLat(), 0 , GeoDataCoordinates::Degree), 6, 6);
 
     if (i != 0)
     {
@@ -67,10 +67,10 @@ void TrippyMarbleWidget::customPaint(GeoPainter *painter)
       if (isSelected)
       {
         selectionSourceExists = true;
-        selected_source = GeoDataCoordinates(last.getGpsLong(), last.getGpsLat(), 0 , GeoDataCoordinates::Degree);
+        selected_source = GeoDataPoint(last.getGpsLong(), last.getGpsLat(), 0 , GeoDataCoordinates::Degree);
       }
 
-      painter->drawLine(GeoDataCoordinates(current.getGpsLong(), current.getGpsLat(), 0 , GeoDataCoordinates::Degree), GeoDataCoordinates(last.getGpsLong(), last.getGpsLat(), 0 , GeoDataCoordinates::Degree));
+      painter->drawLine(GeoDataPoint(current.getGpsLong(), current.getGpsLat(), 0 , GeoDataCoordinates::Degree), GeoDataPoint(last.getGpsLong(), last.getGpsLat(), 0 , GeoDataCoordinates::Degree));
     }
   }
 

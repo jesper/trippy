@@ -19,6 +19,8 @@
 
 #include "trippymarblewidget.h"
 
+#include <GeoDataPoint.h>
+
 TrippyMarbleWidget::TrippyMarbleWidget(QWidget *parent)
   : MarbleWidget(parent)
 {
